@@ -1,3 +1,32 @@
-.pokemon {
-    color: orange;
+h1 {
+    text-align: center;
+}
+.pokedexButton {
+    /* overwrites browser defaults and resets the border */
+    border: 2px solid red;
+    display: inline-block;
+    /* takes the font from the outer container */
+    font-family: inherit;
+    /* styles the button */
+    font-weight: 700;
+    background-color: white;
+    color: #061228;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+
+.pokedexButton:hover,
+.pokedexButton:focus {
+    /* lets the mouse appear as a hand when hovering over the button */
+    cursor: pointer;
+    /* reduces the opacity of the button to 80% */
+    transform: scale(1.2);
+  }
+
+ul {
+    list-style: none;
+    text-align: center;
 }
