@@ -35,7 +35,7 @@ var pokemonRepository = (function () { /*IIFE start*/
         var button = document.createElement('button'); /* creates a <button> element and assings it as the button variable*/
         button.innerText = pokemon.name; /*?? got it to work but why is it pokemon and not pokemonList again*/
         button.classList.add('pokedexButton'); /*adds a class name 'pokedexButton' to button so it can be edited in css*/
-        button.addEventListener('click', showDetails(pokemon));
+        button.addEventListener('click', () =>showDetails(pokemon));
         listItem.appendChild(button); /*states parent element then adds child button*/
         pokedexList.appendChild(listItem);/*states parent element then adds child listItem*/
     }
