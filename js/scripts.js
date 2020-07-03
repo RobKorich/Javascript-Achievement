@@ -17,6 +17,17 @@ var pokemonRepository = (function () { /*IIFE start*/
         }
     ];
 
+    /* how to add a pokemon
+    console.log(pokemonRepository.getAll());
+
+    pokemonRepository.add({
+        name: 'Bulbasaur',
+        height: 1,
+        type: ['poison']
+    });
+
+    console.log(pokemonRepository.getAll());
+    */
     function add(pokemon) {
         pokemonList.push(pokemon);
     }
@@ -71,16 +82,4 @@ for (var i = 0; i < pokemonList.length; i++) {
     }
     document.write('</p>')
 }
-*/
-
-/* how to add a pokemon
-console.log(pokemonRepository.getAll());
-
-pokemonRepository.add({
-    name: 'Bulbasaur',
-    height: 1,
-    type: ['poison']
-});
-
-console.log(pokemonRepository.getAll());
 */
