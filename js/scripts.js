@@ -25,17 +25,17 @@ var pokemonRepository = (function () { /*IIFE start*/
         return pokemonList;
     }
 
-    function showDetails(pokemon) { /*why does pokemon go here?*/
-        console.log(pokemon); /*??*/
+    function showDetails(pokemon) {
+        console.log(pokemon);
     }
-
+    
     function addListItem(pokemon) {
         var pokedexList = document.querySelector('.pokemon-list'); /*selects <ul> in HTML and assigns it as the pokedexList variable*/
         var listItem = document.createElement('li'); /*creates the <li> element and assigns it as the listItem variable*/
         var button = document.createElement('button'); /* creates a <button> element and assings it as the button variable*/
         button.innerText = pokemon.name; /*?? got it to work but why is it pokemon and not pokemonList again*/
         button.classList.add('pokedexButton'); /*adds a class name 'pokedexButton' to button so it can be edited in css*/
-        button.addEventListener('click', () =>showDetails(pokemon));
+        button.addEventListener('click', () => showDetails(pokemon)); /*wrap showDetails function in another function so it isn't called immediately when code runs but when click event executes*/
         listItem.appendChild(button); /*states parent element then adds child button*/
         pokedexList.appendChild(listItem);/*states parent element then adds child listItem*/
     }

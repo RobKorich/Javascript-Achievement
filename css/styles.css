@@ -29,4 +29,5 @@ h1 {
 ul {
     list-style: none;
     text-align: center;
+    padding: 0;
 }
