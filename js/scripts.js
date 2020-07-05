@@ -1,6 +1,7 @@
 var pokemonRepository = (function () { /*IIFE start*/
-    var pokemonList = [
-        {
+    var pokemonList = [];
+    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+        /*{
             name: 'Charmander',
             height: 2, 
             type: ['fire']
@@ -15,7 +16,37 @@ var pokemonRepository = (function () { /*IIFE start*/
             height: 1.5, 
             type: ['water']
         }
-    ];
+    ];*/
+
+    function loadList() { /*new code to review*/
+        return fetch(apiUrl).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          json.results.forEach(function (item) {
+            var pokemon = {
+              name: item.name,
+              detailsUrl: item.url
+            };
+            add(pokemon);
+          });
+        }).catch(function (e) {
+          console.error(e);
+        })
+      }
+
+    function loadDetails(item) {
+        var url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+          return response.json();
+        }).then(function (details) {
+          // Now we add the details to the item
+          item.imageUrl = details.sprites.front_default;
+          item.height = details.height;
+          item.types = details.types;
+        }).catch(function (e) {
+          console.error(e);
+        });
+      } /*new code to review end*/
 
     /* how to add a pokemon
     console.log(pokemonRepository.getAll());
@@ -28,6 +59,7 @@ var pokemonRepository = (function () { /*IIFE start*/
 
     console.log(pokemonRepository.getAll());
     */
+
     function add(pokemon) {
         pokemonList.push(pokemon);
     }
@@ -37,7 +69,9 @@ var pokemonRepository = (function () { /*IIFE start*/
     }
 
     function showDetails(pokemon) {
-        console.log(pokemon);
+        loadDetails(pokemon).then(function () {
+            console.log(pokemon);
+        });
     }
     
     function addListItem(pokemon) {
@@ -55,13 +89,18 @@ var pokemonRepository = (function () { /*IIFE start*/
     return {
         add,
         getAll,
-        addListItem
+        addListItem,
+        loadList,
+        loadDetails
     }
+
 })(); /*IIFE end*/
 
-pokemonRepository.getAll().forEach(function(pokemon){
-    pokemonRepository.addListItem(pokemon);
-})
+pokemonRepository.loadList().then(function() { /*new code to review*/
+    pokemonRepository.getAll().forEach(function(pokemon){
+        pokemonRepository.addListItem(pokemon);
+    });
+});
 
 /*document.write('<p>' + pokemon.name + ' (height: ' + pokemon.height + ')')
 if (pokemon.height > 1) {
