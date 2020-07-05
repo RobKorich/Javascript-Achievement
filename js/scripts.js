@@ -69,7 +69,7 @@ var pokemonRepository = (function () { /*IIFE start*/
     }
 
     function showDetails(pokemon) {
-        loadDetails(pokemon).then(function () {
+        loadDetails(pokemon).then(function () { /*new code to review*/
             console.log(pokemon);
         });
     }
