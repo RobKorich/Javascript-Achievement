@@ -1,6 +1,6 @@
 var pokemonRepository = (function () { /*IIFE start*/
     var pokemonList = [];
-    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150'; /*pokemon list now loaded from external api*/
         /*{
             name: 'Charmander',
             height: 2, 
@@ -18,18 +18,18 @@ var pokemonRepository = (function () { /*IIFE start*/
         }
     ];*/
 
-    function loadList() { /*new code to review*/
-        return fetch(apiUrl).then(function (response) {
-          return response.json();
-        }).then(function (json) {
-          json.results.forEach(function (item) {
-            var pokemon = {
+    function loadList() { 
+        return fetch(apiUrl).then(function (response) { /*fetch function used on apiUrl var to get pokemon list / start promise for async*/
+          return response.json(); // returns response and then takes that and converts it to json format from string
+        }).then(function (json) { 
+          json.results.forEach(function (item) { //explain what this line is doing please... I know it is loop start but do not get json.results and what that is
+            var pokemon = { // sets pokemon variable to be an object with name and detailsUrl
               name: item.name,
               detailsUrl: item.url
             };
-            add(pokemon);
+            add(pokemon); // normalize the response and store it in the pokemonList array
           });
-        }).catch(function (e) {
+        }).catch(function (e) { //promise catch for error response
           console.error(e);
         })
       }
@@ -39,14 +39,14 @@ var pokemonRepository = (function () { /*IIFE start*/
         return fetch(url).then(function (response) {
           return response.json();
         }).then(function (details) {
-          // Now we add the details to the item
+          //Now we add the details to the item
           item.imageUrl = details.sprites.front_default;
           item.height = details.height;
           item.types = details.types;
         }).catch(function (e) {
           console.error(e);
         });
-      } /*new code to review end*/
+      }
 
     /* how to add a pokemon
     console.log(pokemonRepository.getAll());
@@ -69,11 +69,60 @@ var pokemonRepository = (function () { /*IIFE start*/
     }
 
     function showDetails(pokemon) {
-        loadDetails(pokemon).then(function () { /*new code to review*/
-            console.log(pokemon);
+      loadDetails(pokemon).then(function () {
+          showModal(pokemon.name, pokemon.height, pokemon.imageUrl);
         });
     }
+
+    function showModal(title, text, imageUrl) { 
+      var modalContainer = document.querySelector('#modal-container');
+
+      modalContainer.innerHTML = '';
+
+      var modal = document.createElement('div');
+      modal.classList.add('modal');
+
+      var closeButtonElement = document.createElement('button');
+      closeButtonElement.classList.add('modal-close');
+      closeButtonElement.innerText = 'Close';
+      closeButtonElement.addEventListener('click', hideModal);
+      
+      var titleElement = document.createElement('h1');
+      titleElement.innerText = title;
+
+      var contentElement = document.createElement('p');
+      contentElement.innerText = 'Height: ' + text;
+
+      var pictureElement = document.createElement('img');
+      pictureElement.setAttribute('src', imageUrl);
+
+      modal.appendChild(closeButtonElement);
+      modal.appendChild(titleElement);
+      modal.appendChild(contentElement);
+      modal.appendChild(pictureElement);
+      modalContainer.appendChild(modal);
+
+      modalContainer.classList.add('is-visible');
+    }
     
+    function hideModal() {
+      var modalContainer = document.querySelector('#modal-container');
+      modalContainer.classList.remove('is-visible');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      var modalContainer = document.querySelector('#modal-container');
+      if(e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+        hideModal();
+      }
+      modalContainer.addEventListener('click', (e) => {
+        var target = e.target;
+        if (target === modalContainer) {
+          hideModal();
+        }
+      })
+    });
+
     function addListItem(pokemon) {
         var pokedexList = document.querySelector('.pokemon-list'); /*selects <ul> in HTML and assigns it as the pokedexList variable*/
         var listItem = document.createElement('li'); /*creates the <li> element and assigns it as the listItem variable*/
