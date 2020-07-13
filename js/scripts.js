@@ -34,15 +34,16 @@ var pokemonRepository = (function () { /*IIFE start*/
         })
       }
 
-    function loadDetails(item) {
-        var url = item.detailsUrl;
+    function loadDetails(pokemon) {
+        var url = pokemon.detailsUrl;
         return fetch(url).then(function (response) {
           return response.json();
         }).then(function (details) {
-          //Now we add the details to the item
-          item.imageUrl = details.sprites.front_default;
-          item.height = details.height;
-          item.types = details.types;
+          //Now we add the details to the pokemon
+          pokemon.imageUrl = details.sprites.front_default;
+          pokemon.height = details.height;
+          pokemon.types = details.types;
+          pokemon.weight = details.weight;
         }).catch(function (e) {
           console.error(e);
         });
@@ -68,40 +69,45 @@ var pokemonRepository = (function () { /*IIFE start*/
         return pokemonList;
     }
 
-    function showDetails(pokemon) {
+    function showDetails(pokemon) { //function that is called when pokemon button is clicked on
       loadDetails(pokemon).then(function () {
-          showModal(pokemon.name, pokemon.height, pokemon.imageUrl);
+          showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.imageUrl);
         });
     }
 
-    function showModal(title, text, imageUrl) { 
-      var modalContainer = document.querySelector('#modal-container');
+    function showModal(title, text, weight, imageUrl) { 
+      var modalContainer = document.querySelector('#modal-container'); // select modal container from div id in html
 
-      modalContainer.innerHTML = '';
+      modalContainer.innerHTML = ''; // clear modal
 
-      var modal = document.createElement('div');
+      var modal = document.createElement('div'); // create div element and assign it modal class
       modal.classList.add('modal');
 
-      var closeButtonElement = document.createElement('button');
+      var closeButtonElement = document.createElement('button'); // create button element and assign it modal-close class
       closeButtonElement.classList.add('modal-close');
       closeButtonElement.innerText = 'Close';
-      closeButtonElement.addEventListener('click', hideModal);
+      closeButtonElement.addEventListener('click', hideModal); //add event listener to Close button to run hideModal function on click
       
-      var titleElement = document.createElement('h1');
-      titleElement.innerText = title;
+      var titleElement = document.createElement('h1'); // create h1 element for title
+      titleElement.innerText = title; // set title text to be title(pokemon.name)
 
-      var contentElement = document.createElement('p');
-      contentElement.innerText = 'Height: ' + text;
+      var contentElement = document.createElement('p'); //create p element for Heigh info
+      contentElement.innerText = 'Height: ' + text; // set pokemon heigh info
 
-      var pictureElement = document.createElement('img');
-      pictureElement.setAttribute('src', imageUrl);
+      var weightElement = document.createElement('p');
+      weightElement.innerText = 'Weight: ' + weight;
 
+      var pictureElement = document.createElement('img'); //create img element for pokemon image
+      pictureElement.setAttribute('src', imageUrl); //set img source as imageUrl 
+
+      //add created elements
       modal.appendChild(closeButtonElement);
       modal.appendChild(titleElement);
       modal.appendChild(contentElement);
+      modal.appendChild(weightElement);
       modal.appendChild(pictureElement);
       modalContainer.appendChild(modal);
-
+      //add is-visible class to modalContainer so you can have a hidden/not hidden version in css
       modalContainer.classList.add('is-visible');
     }
     
