@@ -71,11 +71,11 @@ var pokemonRepository = (function () { /*IIFE start*/
 
     function showDetails(pokemon) { //function that is called when pokemon button is clicked on
       loadDetails(pokemon).then(function () {
-          showModal(pokemon.name, pokemon.height, pokemon.weight, pokemon.imageUrl);
+          showModal(pokemon);
         });
     }
 
-    function showModal(title, text, weight, imageUrl) { 
+    function showModal(pokemon) { 
       var modalContainer = document.querySelector('#modal-container'); // select modal container from div id in html
 
       modalContainer.innerHTML = ''; // clear modal
@@ -89,16 +89,16 @@ var pokemonRepository = (function () { /*IIFE start*/
       closeButtonElement.addEventListener('click', hideModal); //add event listener to Close button to run hideModal function on click
       
       var titleElement = document.createElement('h1'); // create h1 element for title
-      titleElement.innerText = title; // set title text to be title(pokemon.name)
+      titleElement.innerText = pokemon.name; // set title text to be title(pokemon.name)
 
       var contentElement = document.createElement('p'); //create p element for Heigh info
-      contentElement.innerText = 'Height: ' + text; // set pokemon heigh info
+      contentElement.innerText = 'Height: ' + pokemon.height; // set pokemon heigh info
 
       var weightElement = document.createElement('p');
-      weightElement.innerText = 'Weight: ' + weight;
+      weightElement.innerText = 'Weight: ' + pokemon.weight;
 
       var pictureElement = document.createElement('img'); //create img element for pokemon image
-      pictureElement.setAttribute('src', imageUrl); //set img source as imageUrl 
+      pictureElement.setAttribute('src', pokemon.imageUrl); //set img source as imageUrl 
 
       //add created elements
       modal.appendChild(closeButtonElement);
