@@ -100,11 +100,21 @@ var pokemonRepository = (function () { /*IIFE start*/
       var pictureElement = document.createElement('img'); //create img element for pokemon image
       pictureElement.setAttribute('src', pokemon.imageUrl); //set img source as imageUrl 
 
+      var types = '';
+      var typeElement = document.createElement('p');
+      
+      pokemon.types.forEach((type, i) => {
+        types += ` ${type.type.name}`
+      });
+
+      typeElement.innerText = 'Type: ' + types;
+      
       //add created elements
       modal.appendChild(closeButtonElement);
       modal.appendChild(titleElement);
       modal.appendChild(contentElement);
       modal.appendChild(weightElement);
+      modal.appendChild(typeElement);
       modal.appendChild(pictureElement);
       modalContainer.appendChild(modal);
       //add is-visible class to modalContainer so you can have a hidden/not hidden version in css
