@@ -102,11 +102,9 @@ var pokemonRepository = (function () { /*IIFE start*/
 
       var types = '';
       var typeElement = document.createElement('p');
-      
       pokemon.types.forEach((type, i) => {
         types += ` ${type.type.name}`
       });
-
       typeElement.innerText = 'Type: ' + types;
       
       //add created elements
