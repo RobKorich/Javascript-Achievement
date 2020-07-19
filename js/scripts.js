@@ -99,6 +99,7 @@ var pokemonRepository = (function () { /*IIFE start*/
 
       var pictureElement = document.createElement('img'); //create img element for pokemon image
       pictureElement.setAttribute('src', pokemon.imageUrl); //set img source as imageUrl 
+      pictureElement.classList.add('picture');
 
       var types = '';
       var typeElement = document.createElement('p');
